@@ -125,43 +125,6 @@ body.stage-hold {
   align-items: stretch;
   position: relative;
   z-index: 1;
-  padding-top: 38px; /* Room for showreel ticker */
-}
-
-/* Rhythmic Looping Text Ticker Banner */
-.looping-text-ticker {
-  width: 100%;
-  overflow: hidden;
-  white-space: nowrap;
-  border-bottom: 1px solid var(--panel-border);
-  padding: 10px 0;
-  background-color: rgba(255, 255, 255, 0.005);
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 100;
-  pointer-events: none;
-}
-
-.ticker-inner {
-  display: inline-block;
-  animation: ticker 40s linear infinite;
-}
-
-.ticker-inner span {
-  display: inline-block;
-  font-size: 0.65rem;
-  text-transform: uppercase;
-  letter-spacing: 0.25em;
-  color: var(--text-secondary);
-  opacity: 0.45;
-  font-weight: 300;
-  padding-right: 20px;
-}
-
-@keyframes ticker {
-  0% { transform: translate3d(0, 0, 0); }
-  100% { transform: translate3d(-50%, 0, 0); }
 }
 
 /* Responsive sidebars with fluid transitions */

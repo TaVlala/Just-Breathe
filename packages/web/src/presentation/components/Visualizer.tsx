@@ -448,18 +448,8 @@ export const Visualizer: React.FC = () => {
     linearProgressPercent = (state.timeElapsed / currentStage.duration) * 100;
   }
 
-  // Generate scrolling ticker text
-  const tickerText = "BREATHE IN  •  STILLNESS  •  LET GO  •  PRESENT MOMENT  •  ";
-
   return (
     <div className={`workspace-deck layout-${layoutMode}`}>
-      {/* Awwwards Reference: Looping Showreel Text Banner at the top */}
-      <div className="looping-text-ticker">
-        <div className="ticker-inner">
-          <span>{tickerText.repeat(8)}</span>
-          <span>{tickerText.repeat(8)}</span>
-        </div>
-      </div>
 
       {/* 1. Left Sidebar: Presets */}
       <aside className="deck-sidebar sidebar-left">
