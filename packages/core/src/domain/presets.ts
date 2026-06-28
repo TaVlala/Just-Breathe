@@ -91,15 +91,15 @@ export const defaultPreferences = {
   themeMode: 'dark' as const,
   accentTheme: 'forest' as const,
   clockStyle: 'digital' as const,
-  soundVolume: 0.8,
+  soundVolume: 0.5,
   tickType: 'woodblock' as const,
   chimeType: 'singing-bowl' as const,
   ambientType: 'none' as const,
-  ambientVolume: 0.15,
-  tickVolume: 0.3,
-  chimeVolume: 0.7,
+  ambientVolume: 0.08,
+  tickVolume: 0.1, // very soft ticking default
+  chimeVolume: 0.45,
   voiceGuideEnabled: true,
-  tickMuted: false,
+  tickMuted: true, // muted by default to avoid driving the user crazy!
   chimeMuted: false,
   voiceMuted: false,
   ambientMuted: false

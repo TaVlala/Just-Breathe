@@ -22,6 +22,8 @@ export class WebAudioService {
     ambient: false
   };
 
+  private isMasterMuted = false;
+
   private currentAmbientType: 'none' | 'waves' | 'rain' | 'drone' = 'none';
 
   constructor() {
@@ -106,9 +108,22 @@ export class WebAudioService {
     }
   }
 
+  toggleMute(type: 'master'): boolean {
+    this.init();
+    if (type === 'master') {
+      this.isMasterMuted = !this.isMasterMuted;
+      if (this.ctx && this.masterGain) {
+        const t = this.ctx.currentTime;
+        this.masterGain.gain.setTargetAtTime(this.isMasterMuted ? 0 : this.volumes.master, t, 0.05);
+      }
+      return this.isMasterMuted;
+    }
+    return false;
+  }
+
   playTick(type: 'woodblock' | 'click' | 'heartbeat') {
     this.init();
-    if (!this.ctx || this.mutes.tick || !this.tickGain) return;
+    if (!this.ctx || this.mutes.tick || !this.tickGain || this.isMasterMuted) return;
 
     const t = this.ctx.currentTime;
 
@@ -180,7 +195,7 @@ export class WebAudioService {
 
   playChime(type: 'singing-bowl' | 'crystal' | 'gong') {
     this.init();
-    if (!this.ctx || this.mutes.chime || !this.chimeGain) return;
+    if (!this.ctx || this.mutes.chime || !this.chimeGain || this.isMasterMuted) return;
 
     const t = this.ctx.currentTime;
 
@@ -268,7 +283,7 @@ export class WebAudioService {
     this.stopAmbient();
     this.currentAmbientType = type;
 
-    if (type === 'none' || this.mutes.ambient || !this.ctx || !this.ambientGain) return;
+    if (type === 'none' || this.mutes.ambient || !this.ctx || !this.ambientGain || this.isMasterMuted) return;
 
     const bufferSize = this.ctx.sampleRate * 4;
     const noiseBuffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);

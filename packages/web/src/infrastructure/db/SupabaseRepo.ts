@@ -2,8 +2,8 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { IUserDataRepository, UserData } from '@jus-breathe/core';
 
 // Retrieve environment keys (loaded via Vite)
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'PLACEHOLDER_URL';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'PLACEHOLDER_KEY';
+const supabaseUrl = (import.meta as any).env.VITE_SUPABASE_URL || 'PLACEHOLDER_URL';
+const supabaseAnonKey = (import.meta as any).env.VITE_SUPABASE_ANON_KEY || 'PLACEHOLDER_KEY';
 
 export class SupabaseRepo implements IUserDataRepository {
   private client: SupabaseClient | null = null;

@@ -1,18 +1,26 @@
-import React, { useState } from 'react';
-import { Preset, Stage, Phase, StageType } from '@jus-breathe/core';
+import React, { useState, useEffect } from 'react';
+import { Preset, Stage, StageType } from '@jus-breathe/core';
 
 interface PresetEditorProps {
   presets: Preset[];
+  presetToEdit?: Preset | null;
   onSave: (updatedPresets: Preset[]) => void;
   onClose: () => void;
+  onDelete?: (presetId: string) => void;
 }
 
-export const PresetEditor: React.FC<PresetEditorProps> = ({ presets, onSave, onClose }) => {
+export const PresetEditor: React.FC<PresetEditorProps> = ({ 
+  presets, 
+  presetToEdit, 
+  onSave, 
+  onClose,
+  onDelete 
+}) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [theme, setTheme] = useState<'forest' | 'ocean' | 'lavender' | 'amber'>('forest');
-  const [repeats, setRepeats] = useState<number | null>(4); // default 4 repetitions
-  const [isInfinite, setIsInfinite] = useState(true); // default loop indefinitely
+  const [repeats, setRepeats] = useState<number | null>(4);
+  const [isInfinite, setIsInfinite] = useState(true);
   const [stages, setStages] = useState<Stage[]>([
     { name: 'Inhale', duration: 4, type: 'inhale' },
     { name: 'Hold', duration: 4, type: 'hold-full' },
@@ -20,11 +28,27 @@ export const PresetEditor: React.FC<PresetEditorProps> = ({ presets, onSave, onC
     { name: 'Hold', duration: 4, type: 'hold-empty' }
   ]);
 
+  // Populate state if editing
+  useEffect(() => {
+    if (presetToEdit) {
+      setName(presetToEdit.name);
+      setDescription(presetToEdit.description);
+      setTheme(presetToEdit.theme);
+      
+      const phase = presetToEdit.phases[0];
+      if (phase) {
+        setIsInfinite(phase.repeats === null);
+        setRepeats(phase.repeats || 4);
+        setStages(phase.stages);
+      }
+    }
+  }, [presetToEdit]);
+
   const handleAddStage = () => {
     const newStage: Stage = {
-      name: 'New Stage',
+      name: 'Hold',
       duration: 4,
-      type: 'inhale'
+      type: 'hold-full'
     };
     setStages([...stages, newStage]);
   };
@@ -66,17 +90,16 @@ export const PresetEditor: React.FC<PresetEditorProps> = ({ presets, onSave, onC
   const handleSave = () => {
     const trimmedName = name.trim();
     if (!trimmedName) {
-      alert("Please provide a name for your custom preset.");
+      alert("Please provide a name for this preset.");
       return;
     }
 
-    // Prepare custom preset
-    const customPreset: Preset = {
-      id: `custom_${Date.now()}`,
+    const savedPreset: Preset = {
+      id: presetToEdit ? presetToEdit.id : `custom_${Date.now()}`,
       name: trimmedName,
-      description: description.trim() || 'Custom breathing preset.',
+      description: description.trim() || 'Breathing exercise routine.',
       theme,
-      type: 'standard',
+      type: presetToEdit ? presetToEdit.type : 'standard',
       phases: [
         {
           name: 'Cycle',
@@ -90,10 +113,16 @@ export const PresetEditor: React.FC<PresetEditorProps> = ({ presets, onSave, onC
       ]
     };
 
-    onSave([...presets, customPreset]);
+    let updatedPresets: Preset[];
+    if (presetToEdit) {
+      updatedPresets = presets.map(p => p.id === presetToEdit.id ? savedPreset : p);
+    } else {
+      updatedPresets = [...presets, savedPreset];
+    }
+
+    onSave(updatedPresets);
   };
 
-  // Get color variables for visual blocks
   const getStageColorStyle = (type: StageType) => {
     switch (type) {
       case 'inhale': return 'var(--inhale-color)';
@@ -109,15 +138,16 @@ export const PresetEditor: React.FC<PresetEditorProps> = ({ presets, onSave, onC
         onClick={e => e.stopPropagation()} 
         style={{ 
           maxWidth: '500px', 
-          width: '90%', 
+          width: '95%', 
           borderRadius: '24px', 
-          height: '90%', 
+          height: '92%', 
           margin: 'auto',
-          position: 'relative'
+          position: 'relative',
+          border: '1px solid var(--panel-border)'
         }}
       >
         <div className="drawer-header">
-          <h2>Create Custom Preset</h2>
+          <h2>{presetToEdit ? 'Edit Preset' : 'Create Custom Preset'}</h2>
           <button className="icon-btn" onClick={onClose}>✕</button>
         </div>
 
@@ -219,7 +249,7 @@ export const PresetEditor: React.FC<PresetEditorProps> = ({ presets, onSave, onC
                     borderLeft: `5px solid ${getStageColorStyle(stage.type)}`
                   }}
                 >
-                  <div style={{ display: 'flex', justifyItems: 'center', gap: '8px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     {/* Stage Name */}
                     <input 
                       type="text" 
@@ -292,12 +322,25 @@ export const PresetEditor: React.FC<PresetEditorProps> = ({ presets, onSave, onC
             gap: '12px'
           }}
         >
+          {presetToEdit && onDelete && (
+            <button 
+              className="option-btn" 
+              style={{ flex: 1, color: '#ef4444', borderColor: 'rgba(239, 68, 68, 0.2)' }} 
+              onClick={() => {
+                if (confirm(`Are you sure you want to delete the preset "${presetToEdit.name}"?`)) {
+                  onDelete(presetToEdit.id);
+                }
+              }}
+            >
+              Delete
+            </button>
+          )}
           <button className="option-btn" style={{ flex: 1 }} onClick={onClose}>
             Cancel
           </button>
           <button 
             className="option-btn active" 
-            style={{ flex: 1, backgroundColor: 'var(--accent-color)', color: '#ffffff' }}
+            style={{ flex: 2, backgroundColor: 'var(--accent-color)', color: '#ffffff' }}
             onClick={handleSave}
           >
             Save Preset

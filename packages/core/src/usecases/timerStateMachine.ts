@@ -1,4 +1,4 @@
-import { Preset, Stage, Phase, StageType } from '../domain/entities';
+import { Preset, Stage, Phase } from '../domain/entities';
 
 export interface TimerState {
   preset: Preset;
@@ -76,9 +76,6 @@ export class TimerStateMachine {
 
     this.state.totalSessionDuration += 1;
     this.state.timeElapsed += 1;
-
-    const currentPhase = this.getCurrentPhase();
-    const currentStage = this.getCurrentStage();
 
     if (this.state.timeRemaining !== null) {
       // Countdown stage
