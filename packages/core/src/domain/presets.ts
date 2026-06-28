@@ -13,9 +13,9 @@ export const defaultPresets: Preset[] = [
         repeats: null, // Loop indefinitely
         stages: [
           { name: "Inhale", duration: 4, type: "inhale" },
-          { name: "Hold (Full)", duration: 4, type: "hold-full" },
+          { name: "Hold (Full)", duration: 4, type: "hold" },
           { name: "Exhale", duration: 4, type: "exhale" },
-          { name: "Hold (Empty)", duration: 4, type: "hold-empty" }
+          { name: "Hold (Empty)", duration: 4, type: "hold" }
         ]
       }
     ]
@@ -32,7 +32,7 @@ export const defaultPresets: Preset[] = [
         repeats: null,
         stages: [
           { name: "Inhale", duration: 4, type: "inhale" },
-          { name: "Hold (Full)", duration: 7, type: "hold-full" },
+          { name: "Hold (Full)", duration: 7, type: "hold" },
           { name: "Exhale", duration: 8, type: "exhale" }
         ]
       }
@@ -57,14 +57,14 @@ export const defaultPresets: Preset[] = [
         name: "Retention (Hold)",
         repeats: 1,
         stages: [
-          { name: "Breath Hold (Empty)", duration: null, type: "hold-empty" }
+          { name: "Breath Hold (Empty)", duration: null, type: "hold" }
         ]
       },
       {
         name: "Recovery Breath",
         repeats: 1,
         stages: [
-          { name: "Inhale & Hold (Full)", duration: 15, type: "hold-full" }
+          { name: "Inhale & Hold (Full)", duration: 15, type: "hold" }
         ]
       }
     ]
@@ -80,7 +80,7 @@ export const defaultPresets: Preset[] = [
         name: "Meditation Timer",
         repeats: 1,
         stages: [
-          { name: "Silent Meditation", duration: 1200, type: "hold-empty" } // 20 minutes
+          { name: "Silent Meditation", duration: 1200, type: "hold" } // 20 minutes
         ]
       }
     ]

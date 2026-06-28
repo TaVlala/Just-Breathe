@@ -21,7 +21,7 @@ const mockPreset: Preset = {
       name: "Phase 2",
       repeats: 1,
       stages: [
-        { name: "Hold", duration: null, type: "hold-empty" } // manual hold
+        { name: "Hold", duration: null, type: "hold" } // manual hold
       ]
     }
   ]

@@ -23,9 +23,9 @@ export const PresetEditor: React.FC<PresetEditorProps> = ({
   const [isInfinite, setIsInfinite] = useState(true);
   const [stages, setStages] = useState<Stage[]>([
     { name: 'Inhale', duration: 4, type: 'inhale' },
-    { name: 'Hold', duration: 4, type: 'hold-full' },
+    { name: 'Hold', duration: 4, type: 'hold' },
     { name: 'Exhale', duration: 4, type: 'exhale' },
-    { name: 'Hold', duration: 4, type: 'hold-empty' }
+    { name: 'Hold', duration: 4, type: 'hold' }
   ]);
 
   // Populate state if editing
@@ -48,7 +48,7 @@ export const PresetEditor: React.FC<PresetEditorProps> = ({
     const newStage: Stage = {
       name: 'Hold',
       duration: 4,
-      type: 'hold-full'
+      type: 'hold'
     };
     setStages([...stages, newStage]);
   };
@@ -291,14 +291,14 @@ export const PresetEditor: React.FC<PresetEditorProps> = ({
 
                   {/* Stage Type Toggle */}
                   <div style={{ display: 'flex', gap: '6px' }}>
-                    {(['inhale', 'hold-full', 'exhale', 'hold-empty'] as const).map(type => (
+                    {(['inhale', 'hold', 'exhale'] as const).map(type => (
                       <button
                         key={type}
                         className={`option-btn ${stage.type === type ? 'active' : ''}`}
                         style={{ flex: 1, fontSize: '0.75rem', padding: '6px' }}
                         onClick={() => handleUpdateStage(idx, { type })}
                       >
-                        {type.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
+                        {type.charAt(0).toUpperCase() + type.slice(1)}
                       </button>
                     ))}
                   </div>
