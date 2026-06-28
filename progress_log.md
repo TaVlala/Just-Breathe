@@ -58,7 +58,7 @@
   * `@jus-breathe/core` (Domain model & business logic engine)
   * `@jus-breathe/web` (React UI presentation and web-specific infrastructure)
 * **Styling Choice**: Vanilla CSS for smooth graphic rendering.
-* **Local Server**: Running on `http://localhost:5173`.
+* **Local Server**: Running on `http://localhost:3000`.
 * **Git Repository Target**: `https://github.com/TaVlala/Just-Breathe.git`
 * **Key Risks Mitigated**:
   1. Timer throttling: Web Worker in `@jus-breathe/web/public/timerWorker.js`.
