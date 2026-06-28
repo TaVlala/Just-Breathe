@@ -19,14 +19,14 @@ const db = new LocalStorageRepo();
 
 // --- SVG Icons ---
 const SettingsIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <circle cx="12" cy="12" r="3"></circle>
     <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
   </svg>
 );
 
 const DashboardIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <line x1="18" y1="20" x2="18" y2="10"></line>
     <line x1="12" y1="20" x2="12" y2="4"></line>
     <line x1="6" y1="20" x2="6" y2="14"></line>
@@ -34,14 +34,14 @@ const DashboardIcon = () => (
 );
 
 const SpeakerOnIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
     <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
   </svg>
 );
 
 const SpeakerMuteIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
     <line x1="23" y1="9" x2="17" y2="15"></line>
     <line x1="17" y1="9" x2="23" y2="15"></line>
@@ -49,42 +49,58 @@ const SpeakerMuteIcon = () => (
 );
 
 const EditIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <path d="M12 20h9"></path>
     <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
   </svg>
 );
 
 const PlusIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <line x1="12" y1="5" x2="12" y2="19"></line>
     <line x1="5" y1="12" x2="19" y2="12"></line>
   </svg>
 );
 
 const PlayIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+    <polygon points="6 4 20 12 6 20 6 4"></polygon>
   </svg>
 );
 
 const PauseIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
     <rect x="6" y="4" width="4" height="16"></rect>
     <rect x="14" y="4" width="4" height="16"></rect>
   </svg>
 );
 
 const SkipIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
     <polygon points="5 4 15 12 5 20 5 4"></polygon>
-    <line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" strokeWidth="3"></line>
+    <line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" strokeWidth="2.5"></line>
   </svg>
 );
 
 const ResetIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+  </svg>
+);
+
+const LayoutDashboardIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="3" y="3" width="7" height="9"></rect>
+    <rect x="14" y="3" width="7" height="5"></rect>
+    <rect x="14" y="12" width="7" height="9"></rect>
+    <rect x="3" y="16" width="7" height="5"></rect>
+  </svg>
+);
+
+const LayoutMinimalIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="10"></circle>
+    <circle cx="12" cy="12" r="1"></circle>
   </svg>
 );
 
@@ -101,6 +117,9 @@ export const Visualizer: React.FC = () => {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isDashboardOpen, setIsDashboardOpen] = useState(false);
   
+  // Layout views (rhythmic dashboard vs minimal Zen focus)
+  const [layoutMode, setLayoutMode] = useState<'dashboard' | 'minimal'>('dashboard');
+
   // Editor state
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [presetToEdit, setPresetToEdit] = useState<Preset | null>(null);
@@ -123,7 +142,6 @@ export const Visualizer: React.FC = () => {
 
     supabaseRepo.current.loadData(syncKey).then((cloudData) => {
       if (cloudData) {
-        // Resolve history (merge lists based on uuid to prevent duplication)
         const mergedHistory = [...cloudData.history];
         history.forEach(localLog => {
           if (!mergedHistory.some(cloudLog => cloudLog.id === localLog.id)) {
@@ -141,7 +159,6 @@ export const Visualizer: React.FC = () => {
         db.savePresets(cloudData.presets);
         db.savePreferences(cloudData.preferences);
       } else {
-        // If no cloud data, upload our current local state to initialize it
         supabaseRepo.current.saveData(syncKey, {
           syncKey,
           preferences,
@@ -151,7 +168,6 @@ export const Visualizer: React.FC = () => {
       }
     });
 
-    // Real-time subscription to cloud changes
     const unsubscribe = supabaseRepo.current.subscribeToUpdates(syncKey, (cloudData) => {
       if (cloudData) {
         setHistory(cloudData.history);
@@ -432,9 +448,20 @@ export const Visualizer: React.FC = () => {
     linearProgressPercent = (state.timeElapsed / currentStage.duration) * 100;
   }
 
+  // Generate scrolling ticker text
+  const tickerText = "BREATHE IN  •  STILLNESS  •  LET GO  •  PRESENT MOMENT  •  ";
+
   return (
-    <div className="workspace-deck">
-      {/* 1. Left Sidebar: Presets (Hidden on Mobile, Grid on Desktop) */}
+    <div className={`workspace-deck layout-${layoutMode}`}>
+      {/* Awwwards Reference: Looping Showreel Text Banner at the top */}
+      <div className="looping-text-ticker">
+        <div className="ticker-inner">
+          <span>{tickerText.repeat(8)}</span>
+          <span>{tickerText.repeat(8)}</span>
+        </div>
+      </div>
+
+      {/* 1. Left Sidebar: Presets */}
       <aside className="deck-sidebar sidebar-left">
         <div className="sidebar-scrollable">
           <div className="sidebar-section-header">
@@ -450,7 +477,7 @@ export const Visualizer: React.FC = () => {
               <PlusIcon />
             </button>
           </div>
-          <p className="sidebar-subtext">Select a preset below to align your breath state.</p>
+          <p className="sidebar-subtext">Select a preset to align your breath state.</p>
           
           <div className="sidebar-presets-list">
             {presets.map(p => (
@@ -493,8 +520,8 @@ export const Visualizer: React.FC = () => {
         {!isUnlocked && (
           <div className="entrance-overlay">
             <div className="entrance-logo" style={{ '--accent-color': 'var(--accent-color)', '--inhale-color': 'var(--inhale-color)' } as React.CSSProperties} />
-            <h1 style={{ marginBottom: '12px', fontWeight: 400, letterSpacing: '-0.02em' }}>Jus Breathe</h1>
-            <p style={{ color: 'var(--text-secondary)', marginBottom: '32px', maxWidth: '300px', fontSize: '0.95rem', lineHeight: '1.5' }}>
+            <h1 style={{ marginBottom: '12px', fontWeight: 300, letterSpacing: '-0.03em' }}>Jus Breathe</h1>
+            <p style={{ color: 'var(--text-secondary)', marginBottom: '32px', maxWidth: '300px', fontSize: '0.9rem', lineHeight: '1.6' }}>
               Enter a space of stillness. Adjust your posture and prepare to breathe.
             </p>
             <button className="entrance-btn" onClick={() => {
@@ -511,10 +538,20 @@ export const Visualizer: React.FC = () => {
         <header className="app-header">
           <h1 className="app-title">Jus Breathe</h1>
           <div className="header-actions">
+            {/* Awwwards Reference: Layout Toggle (Dashboard vs Minimal Zen view) */}
+            <button 
+              className="icon-btn desktop-only" 
+              onClick={() => setLayoutMode(prev => prev === 'dashboard' ? 'minimal' : 'dashboard')} 
+              title={layoutMode === 'dashboard' ? "Minimal View" : "Dashboard View"}
+            >
+              {layoutMode === 'dashboard' ? <LayoutMinimalIcon /> : <LayoutDashboardIcon />}
+            </button>
+            
             {/* Quick Master Mute Toggle */}
             <button className="icon-btn" onClick={handleMasterMuteToggle} title={isMasterMuted ? "Unmute All" : "Mute All"}>
               {isMasterMuted ? <SpeakerMuteIcon /> : <SpeakerOnIcon />}
             </button>
+            
             <button className="icon-btn mobile-only" onClick={() => setIsDashboardOpen(true)} title="Progress & History">
               <DashboardIcon />
             </button>
@@ -624,7 +661,7 @@ export const Visualizer: React.FC = () => {
         </div>
       </main>
 
-      {/* 3. Right Sidebar: Embedded Analytics (Hidden on Mobile, Grid on Desktop) */}
+      {/* 3. Right Sidebar: Embedded Analytics */}
       <aside className="deck-sidebar sidebar-right">
         <div className="sidebar-scrollable">
           <h2>Progress & Analytics</h2>
@@ -695,7 +732,6 @@ export const Visualizer: React.FC = () => {
             <div className="settings-group">
               <h3>Sound Cues</h3>
               
-              {/* Ticking Mute/Toggle */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                 <label>Clock Ticking</label>
                 <input 
@@ -715,7 +751,6 @@ export const Visualizer: React.FC = () => {
                 <option value="heartbeat">Organic Heartbeat</option>
               </select>
 
-              {/* Chime Toggle */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                 <label>Transition Chimes</label>
                 <input 
@@ -735,7 +770,6 @@ export const Visualizer: React.FC = () => {
                 <option value="gong">Warm Gong</option>
               </select>
 
-              {/* Ambient sound settings */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                 <label>Ambient Noise</label>
                 <input 
@@ -756,7 +790,6 @@ export const Visualizer: React.FC = () => {
                 <option value="drone">Zen Drone</option>
               </select>
 
-              {/* Voice Guide Toggle */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
                 <label>TTS Voice Guide</label>
                 <input 
@@ -766,7 +799,6 @@ export const Visualizer: React.FC = () => {
                 />
               </div>
 
-              {/* Master volume slider */}
               <div className="volume-row">
                 <span style={{ fontSize: '0.85rem' }}>Master Volume</span>
                 <input 
