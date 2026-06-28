@@ -271,6 +271,19 @@ export const Visualizer: React.FC = () => {
     const stateCallback = (newState: TimerState, event: string) => {
       setState(newState);
 
+      // Transition the background based on current stage type
+      const activeStage = newState.preset.phases[newState.currentPhaseIndex].stages[newState.currentStageIndex];
+      document.body.classList.remove('stage-inhale', 'stage-exhale', 'stage-hold');
+      if (activeStage) {
+        if (activeStage.type === 'inhale') {
+          document.body.classList.add('stage-inhale');
+        } else if (activeStage.type === 'exhale') {
+          document.body.classList.add('stage-exhale');
+        } else {
+          document.body.classList.add('stage-hold');
+        }
+      }
+
       if (event === 'stage-changed') {
         const currentStage = newState.preset.phases[newState.currentPhaseIndex].stages[newState.currentStageIndex];
         webAudioService.playChime(preferences.chimeType);
@@ -288,6 +301,7 @@ export const Visualizer: React.FC = () => {
         workerRef.current?.postMessage({ action: 'stop' });
         webAudioService.playChime(preferences.chimeType);
         speechService.speak("Session complete. Well done.");
+        document.body.classList.remove('stage-inhale', 'stage-exhale', 'stage-hold');
         
         if (sessionStartRef.current) {
           const newLog: SessionLog = {
@@ -343,6 +357,7 @@ export const Visualizer: React.FC = () => {
   const handleReset = () => {
     stateMachineRef.current?.reset();
     workerRef.current?.postMessage({ action: 'stop' });
+    document.body.classList.remove('stage-inhale', 'stage-exhale', 'stage-hold');
   };
 
   const handleSkip = () => {
@@ -353,15 +368,12 @@ export const Visualizer: React.FC = () => {
     setCurrentPreset(preset);
   };
 
-  // Master Mute handler
   const handleMasterMuteToggle = () => {
     const isMuted = webAudioService.toggleMute('master');
     setIsMasterMuted(isMuted);
-    // Also mute speech service
     speechService.setMuted(isMuted);
   };
 
-  // Delete preset handler
   const handleDeletePreset = (presetId: string) => {
     const isDefault = ['box', 'relax', 'wimhof', 'tm'].includes(presetId);
     if (isDefault) {
@@ -372,13 +384,11 @@ export const Visualizer: React.FC = () => {
     setPresets(updated);
     db.savePresets(updated);
     
-    // Reset to first preset
     setCurrentPreset(updated[0] || defaultPresets[0]);
     setIsEditorOpen(false);
     setPresetToEdit(null);
   };
 
-  // Central Core Render Helper
   const currentStage = state ? state.preset.phases[state.currentPhaseIndex].stages[state.currentStageIndex] : null;
   const currentPhase = state ? state.preset.phases[state.currentPhaseIndex] : null;
 
@@ -423,158 +433,210 @@ export const Visualizer: React.FC = () => {
   }
 
   return (
-    <div className="app-container">
-      {/* Ambient background glowing blobs */}
-      <div className="ambient-glow-spot top" style={{ '--inhale-glow': stageGlowClass } as React.CSSProperties} />
-      <div className="ambient-glow-spot bottom" style={{ '--inhale-glow': stageGlowClass } as React.CSSProperties} />
-
-      {/* Interaction Entrance Guard Screen */}
-      {!isUnlocked && (
-        <div className="entrance-overlay">
-          <div className="entrance-logo" style={{ '--accent-color': 'var(--accent-color)', '--inhale-color': 'var(--inhale-color)' } as React.CSSProperties} />
-          <h1 style={{ marginBottom: '12px', fontWeight: 400, letterSpacing: '-0.02em' }}>Jus Breathe</h1>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: '32px', maxWidth: '300px', fontSize: '0.95rem', lineHeight: '1.5' }}>
-            Enter a space of stillness. Adjust your posture and prepare to breathe.
-          </p>
-          <button className="entrance-btn" onClick={() => {
-            webAudioService.init();
-            setIsUnlocked(true);
-            speechService.speak("Ready.");
-          }}>
-            Enter Serenity
-          </button>
-        </div>
-      )}
-
-      {/* Header */}
-      <header className="app-header">
-        <h1 className="app-title">Jus Breathe</h1>
-        <div className="header-actions">
-          {/* Quick Master Mute Toggle */}
-          <button className="icon-btn" onClick={handleMasterMuteToggle} title={isMasterMuted ? "Unmute All" : "Mute All"}>
-            {isMasterMuted ? <SpeakerMuteIcon /> : <SpeakerOnIcon />}
-          </button>
-          <button className="icon-btn" onClick={() => setIsDashboardOpen(true)} title="Progress & History">
-            <DashboardIcon />
-          </button>
-          <button className="icon-btn" onClick={() => setIsSettingsOpen(true)} title="Settings">
-            <SettingsIcon />
-          </button>
-        </div>
-      </header>
-
-      {/* Central Visualizer Portal */}
-      <main className="visualizer-container">
-        {state && currentStage && (
-          <div 
-            className="breathing-portal" 
-            style={{ 
-              transform: `scale(${portalScale})`,
-              '--current-stage-color': stageColorClass,
-              '--current-stage-glow': stageGlowClass
-            } as React.CSSProperties}
-          >
-            <div className="breathing-circle" />
-            <div className="breathing-core">
-              <span className="stage-label">{currentStage.name}</span>
-              
-              {preferences.clockStyle === 'digital' && (
-                <span className="timer-countdown">
-                  {currentStage.duration === null 
-                    ? state.timeElapsed 
-                    : state.timeRemaining}
-                </span>
-              )}
-
-              {currentPhase && currentPhase.repeats !== null && (
-                <span className="rep-indicator">
-                  Cycle {state.currentRepetition + 1} of {currentPhase.repeats}
-                </span>
-              )}
-            </div>
-
-            {/* SVG Ring Progress */}
-            {preferences.clockStyle === 'ring' && currentStage.duration !== null && (
-              <svg className="progress-ring-svg" viewBox="0 0 200 200">
-                <circle
-                  className="progress-ring-circle"
-                  cx="100"
-                  cy="100"
-                  r={radius}
-                  style={{
-                    strokeDasharray: circumference,
-                    strokeDashoffset: strokeDashoffset
-                  }}
-                />
-              </svg>
-            )}
-          </div>
-        )}
-
-        {/* Linear progress bar at the bottom */}
-        {preferences.clockStyle === 'linear' && currentStage && currentStage.duration !== null && (
-          <div className="linear-progress-bar">
-            <div className="linear-progress-fill" style={{ width: `${linearProgressPercent}%` }} />
-          </div>
-        )}
-      </main>
-
-      {/* Controls Center */}
-      <section style={{ width: '100%' }}>
-        <div className="control-bar">
-          <button className="sub-btn" onClick={handleReset} title="Restart">
-            <ResetIcon />
-          </button>
-          <button className="main-btn" onClick={handlePlayToggle} title={state?.isPlaying ? "Pause" : "Play"}>
-            {state?.isPlaying ? <PauseIcon /> : <PlayIcon />}
-          </button>
-          <button className="sub-btn" onClick={handleSkip} title="Skip/Next">
-            <SkipIcon />
-          </button>
-        </div>
-
-        {/* Presets Selector Header with Edit options */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', padding: '0 4px' }}>
-          <span style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-secondary)' }}>Presets</span>
-          <div style={{ display: 'flex', gap: '8px' }}>
+    <div className="workspace-deck">
+      {/* 1. Left Sidebar: Presets (Hidden on Mobile, Grid on Desktop) */}
+      <aside className="deck-sidebar sidebar-left">
+        <div className="sidebar-scrollable">
+          <div className="sidebar-section-header">
+            <h2>Exercise Presets</h2>
             <button 
               className="icon-btn" 
-              style={{ width: '28px', height: '28px', padding: 0 }}
-              onClick={() => {
-                setPresetToEdit(currentPreset);
-                setIsEditorOpen(true);
-              }}
-              title="Edit Selected Preset"
-            >
-              <EditIcon />
-            </button>
-            <button 
-              className="icon-btn" 
-              style={{ width: '28px', height: '28px', padding: 0 }}
               onClick={() => {
                 setPresetToEdit(null);
                 setIsEditorOpen(true);
               }}
-              title="Add New Custom Preset"
+              title="Create Custom Preset"
             >
               <PlusIcon />
             </button>
           </div>
+          <p className="sidebar-subtext">Select a preset below to align your breath state.</p>
+          
+          <div className="sidebar-presets-list">
+            {presets.map(p => (
+              <div 
+                key={`sidebar-${p.id}`} 
+                className={`preset-sidebar-card ${currentPreset.id === p.id ? 'active' : ''}`}
+                onClick={() => selectPreset(p)}
+              >
+                <div className="preset-card-title-row">
+                  <h4>{p.name}</h4>
+                  {currentPreset.id === p.id && (
+                    <button 
+                      className="inline-edit-btn" 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setPresetToEdit(currentPreset);
+                        setIsEditorOpen(true);
+                      }}
+                      title="Edit Preset"
+                    >
+                      <EditIcon />
+                    </button>
+                  )}
+                </div>
+                <p>{p.description}</p>
+                <span className="preset-card-theme-tag">Theme: {p.theme}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </aside>
+
+      {/* 2. Center Column: Main Breathing Portal & Playback Controls */}
+      <main className="deck-center">
+        {/* Ambient background glowing blobs */}
+        <div className="ambient-glow-spot top" style={{ '--inhale-glow': stageGlowClass } as React.CSSProperties} />
+        <div className="ambient-glow-spot bottom" style={{ '--inhale-glow': stageGlowClass } as React.CSSProperties} />
+
+        {/* Interaction Entrance Guard Screen */}
+        {!isUnlocked && (
+          <div className="entrance-overlay">
+            <div className="entrance-logo" style={{ '--accent-color': 'var(--accent-color)', '--inhale-color': 'var(--inhale-color)' } as React.CSSProperties} />
+            <h1 style={{ marginBottom: '12px', fontWeight: 400, letterSpacing: '-0.02em' }}>Jus Breathe</h1>
+            <p style={{ color: 'var(--text-secondary)', marginBottom: '32px', maxWidth: '300px', fontSize: '0.95rem', lineHeight: '1.5' }}>
+              Enter a space of stillness. Adjust your posture and prepare to breathe.
+            </p>
+            <button className="entrance-btn" onClick={() => {
+              webAudioService.init();
+              setIsUnlocked(true);
+              speechService.speak("Ready.");
+            }}>
+              Enter Serenity
+            </button>
+          </div>
+        )}
+
+        {/* Header */}
+        <header className="app-header">
+          <h1 className="app-title">Jus Breathe</h1>
+          <div className="header-actions">
+            {/* Quick Master Mute Toggle */}
+            <button className="icon-btn" onClick={handleMasterMuteToggle} title={isMasterMuted ? "Unmute All" : "Mute All"}>
+              {isMasterMuted ? <SpeakerMuteIcon /> : <SpeakerOnIcon />}
+            </button>
+            <button className="icon-btn mobile-only" onClick={() => setIsDashboardOpen(true)} title="Progress & History">
+              <DashboardIcon />
+            </button>
+            <button className="icon-btn" onClick={() => setIsSettingsOpen(true)} title="Settings">
+              <SettingsIcon />
+            </button>
+          </div>
+        </header>
+
+        {/* Central Visualizer Portal */}
+        <div className="visualizer-container">
+          {state && currentStage && (
+            <div 
+              className="breathing-portal" 
+              style={{ 
+                transform: `scale(${portalScale})`,
+                '--current-stage-color': stageColorClass,
+                '--current-stage-glow': stageGlowClass
+              } as React.CSSProperties}
+            >
+              <div className="breathing-circle" />
+              <div className="breathing-circle-ripple" style={{ transform: `scale(${portalScale * 1.25})` } as React.CSSProperties} />
+              
+              <div className="breathing-core">
+                <span className="stage-label">{currentStage.name}</span>
+                
+                {preferences.clockStyle === 'digital' && (
+                  <span className="timer-countdown">
+                    {currentStage.duration === null 
+                      ? state.timeElapsed 
+                      : state.timeRemaining}
+                  </span>
+                )}
+
+                {currentPhase && currentPhase.repeats !== null && (
+                  <span className="rep-indicator">
+                    Cycle {state.currentRepetition + 1} of {currentPhase.repeats}
+                  </span>
+                )}
+              </div>
+
+              {/* SVG Ring Progress */}
+              {preferences.clockStyle === 'ring' && currentStage.duration !== null && (
+                <svg className="progress-ring-svg" viewBox="0 0 200 200">
+                  <circle
+                    className="progress-ring-circle"
+                    cx="100"
+                    cy="100"
+                    r={radius}
+                    style={{
+                      strokeDasharray: circumference,
+                      strokeDashoffset: strokeDashoffset
+                    }}
+                  />
+                </svg>
+              )}
+            </div>
+          )}
+
+          {/* Linear progress bar at the bottom */}
+          {preferences.clockStyle === 'linear' && currentStage && currentStage.duration !== null && (
+            <div className="linear-progress-bar">
+              <div className="linear-progress-fill" style={{ width: `${linearProgressPercent}%` }} />
+            </div>
+          )}
         </div>
 
-        {/* Presets carousel */}
-        <div className="presets-carousel">
-          {presets.map(p => (
-            <div 
-              key={p.id} 
-              className={`preset-card ${currentPreset.id === p.id ? 'active' : ''}`}
-              onClick={() => selectPreset(p)}
-            >
-              {p.name} { !['box', 'relax', 'wimhof', 'tm'].includes(p.id) && '•' }
+        {/* Controls Center */}
+        <div className="playback-controls-wrapper">
+          <div className="control-bar">
+            <button className="sub-btn" onClick={handleReset} title="Restart">
+              <ResetIcon />
+            </button>
+            <button className="main-btn" onClick={handlePlayToggle} title={state?.isPlaying ? "Pause" : "Play"}>
+              {state?.isPlaying ? <PauseIcon /> : <PlayIcon />}
+            </button>
+            <button className="sub-btn" onClick={handleSkip} title="Skip/Next">
+              <SkipIcon />
+            </button>
+          </div>
+
+          {/* Presets Carousel - Mobile Only */}
+          <div className="mobile-presets-selector mobile-only">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+              <span style={{ fontSize: '0.8rem', textTransform: 'uppercase', color: 'var(--text-secondary)' }}>Presets</span>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button className="icon-btn" style={{ width: '28px', height: '28px' }} onClick={() => { setPresetToEdit(currentPreset); setIsEditorOpen(true); }} title="Edit Preset">
+                  <EditIcon />
+                </button>
+                <button className="icon-btn" style={{ width: '28px', height: '28px' }} onClick={() => { setPresetToEdit(null); setIsEditorOpen(true); }} title="Add Preset">
+                  <PlusIcon />
+                </button>
+              </div>
             </div>
-          ))}
+            <div className="presets-carousel">
+              {presets.map(p => (
+                <div 
+                  key={`carousel-${p.id}`} 
+                  className={`preset-card ${currentPreset.id === p.id ? 'active' : ''}`}
+                  onClick={() => selectPreset(p)}
+                >
+                  {p.name}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
-      </section>
+      </main>
+
+      {/* 3. Right Sidebar: Embedded Analytics (Hidden on Mobile, Grid on Desktop) */}
+      <aside className="deck-sidebar sidebar-right">
+        <div className="sidebar-scrollable">
+          <h2>Progress & Analytics</h2>
+          <p className="sidebar-subtext" style={{ marginBottom: '16px' }}>Your daily logs, streaks, and history.</p>
+          <Dashboard history={history} currentPreset={currentPreset} onClearHistory={() => {
+            if (confirm("Are you sure you want to clear all history?")) {
+              setHistory([]);
+              db.saveHistory([]);
+            }
+          }} />
+        </div>
+      </aside>
 
       {/* Settings Drawer Panel */}
       {isSettingsOpen && (
@@ -786,9 +848,9 @@ export const Visualizer: React.FC = () => {
         </div>
       )}
 
-      {/* Dashboard / Analytics Drawer */}
+      {/* Dashboard / Analytics Drawer (Mobile Only) */}
       {isDashboardOpen && (
-        <div className="drawer-overlay" onClick={() => setIsDashboardOpen(false)}>
+        <div className="drawer-overlay mobile-only" onClick={() => setIsDashboardOpen(false)}>
           <div className="drawer-panel" onClick={e => e.stopPropagation()}>
             <div className="drawer-header">
               <h2>Analytics & Stats</h2>
@@ -815,7 +877,6 @@ export const Visualizer: React.FC = () => {
             setIsEditorOpen(false);
             setPresetToEdit(null);
             
-            // Auto select the new or edited preset
             const lastPreset = updatedPresets[updatedPresets.length - 1];
             if (presetToEdit) {
               const currentEdited = updatedPresets.find(p => p.id === presetToEdit.id);
