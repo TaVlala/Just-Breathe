@@ -1,0 +1,18 @@
+{
+  "name": "jus-breathe-monorepo",
+  "private": true,
+  "workspaces": [
+    "packages/core",
+    "packages/web"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=packages/web",
+    "build": "npm run build --workspaces",
+    "test": "vitest run",
+    "lint": "eslint packages/*/src/**/*.ts*"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2",
+    "vitest": "^1.2.0"
+  }
+}

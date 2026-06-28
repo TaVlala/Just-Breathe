@@ -1,0 +1,17 @@
+{
+  "short_name": "Jus Breathe",
+  "name": "Jus Breathe - Calm Meditation",
+  "description": "A minimalistic, modern app for breathing exercises and mindfulness.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#06070a",
+  "theme_color": "#06070a",
+  "icons": [
+    {
+      "src": "./icon.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
