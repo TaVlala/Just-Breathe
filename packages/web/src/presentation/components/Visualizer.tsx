@@ -11,6 +11,7 @@ import {
 import { webAudioService } from '../../infrastructure/audio/WebAudioService';
 import { speechService } from '../../infrastructure/audio/SpeechService';
 import { LocalStorageRepo } from '../../infrastructure/db/LocalStorageRepo';
+import { SupabaseRepo } from '../../infrastructure/db/SupabaseRepo';
 import { Dashboard } from './Dashboard';
 import { PresetEditor } from './PresetEditor';
 
@@ -110,6 +111,102 @@ export const Visualizer: React.FC = () => {
   const sessionStartRef = useRef<string | null>(null);
 
   const [isMasterMuted, setIsMasterMuted] = useState(false);
+
+  // Cloud Sync states & handlers
+  const [syncKey, setSyncKey] = useState<string | null>(() => db.getSyncKey());
+  const [inputSyncKey, setInputSyncKey] = useState('');
+  const supabaseRepo = useRef(new SupabaseRepo());
+
+  // Real-time Cloud Sync Subscription & Initial Pull
+  useEffect(() => {
+    if (!syncKey) return;
+
+    supabaseRepo.current.loadData(syncKey).then((cloudData) => {
+      if (cloudData) {
+        // Resolve history (merge lists based on uuid to prevent duplication)
+        const mergedHistory = [...cloudData.history];
+        history.forEach(localLog => {
+          if (!mergedHistory.some(cloudLog => cloudLog.id === localLog.id)) {
+            mergedHistory.push(localLog);
+          }
+        });
+        
+        mergedHistory.sort((a, b) => new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime());
+
+        setHistory(mergedHistory);
+        setPresets(cloudData.presets);
+        setPreferences(cloudData.preferences);
+
+        db.saveHistory(mergedHistory);
+        db.savePresets(cloudData.presets);
+        db.savePreferences(cloudData.preferences);
+      } else {
+        // If no cloud data, upload our current local state to initialize it
+        supabaseRepo.current.saveData(syncKey, {
+          syncKey,
+          preferences,
+          presets,
+          history
+        });
+      }
+    });
+
+    // Real-time subscription to cloud changes
+    const unsubscribe = supabaseRepo.current.subscribeToUpdates(syncKey, (cloudData) => {
+      if (cloudData) {
+        setHistory(cloudData.history);
+        setPresets(cloudData.presets);
+        setPreferences(cloudData.preferences);
+        db.saveHistory(cloudData.history);
+        db.savePresets(cloudData.presets);
+        db.savePreferences(cloudData.preferences);
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [syncKey]);
+
+  // Debounced push to cloud on local changes
+  useEffect(() => {
+    if (!syncKey) return;
+
+    const timer = setTimeout(() => {
+      supabaseRepo.current.saveData(syncKey, {
+        syncKey,
+        preferences,
+        presets,
+        history
+      });
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [preferences, presets, history, syncKey]);
+
+  const handleGenerateSyncKey = () => {
+    const key = `jb_${Math.random().toString(36).slice(2, 10)}${Math.random().toString(36).slice(2, 10)}`;
+    setSyncKey(key);
+    db.saveSyncKey(key);
+  };
+
+  const handleLinkSyncKey = () => {
+    const trimmed = inputSyncKey.trim();
+    if (!trimmed) {
+      alert("Please enter a valid Sync Key.");
+      return;
+    }
+    setSyncKey(trimmed);
+    db.saveSyncKey(trimmed);
+    setInputSyncKey('');
+    alert("Sync Key linked successfully! Merging data...");
+  };
+
+  const handleUnlinkSync = () => {
+    if (confirm("Are you sure you want to unlink? Your data will remain on this device, but real-time sync will stop.")) {
+      setSyncKey(null);
+      db.saveSyncKey('');
+    }
+  };
 
   // Sync settings and theme with body classes
   useEffect(() => {
@@ -620,6 +717,70 @@ export const Visualizer: React.FC = () => {
                   className="slider-input"
                 />
               </div>
+            </div>
+
+            {/* Cloud Synchronization group */}
+            <div className="settings-group" style={{ marginTop: '24px', borderTop: '1px solid var(--panel-border)', paddingTop: '20px' }}>
+              <h3>Cloud Synchronization</h3>
+              {syncKey ? (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                    Your settings and history are actively synced.
+                  </span>
+                  <div 
+                    style={{ 
+                      display: 'flex', 
+                      justifyContent: 'space-between', 
+                      alignItems: 'center', 
+                      backgroundColor: 'var(--input-bg)', 
+                      padding: '10px 14px', 
+                      borderRadius: '12px',
+                      border: '1px solid var(--input-border)',
+                      fontSize: '0.85rem',
+                      fontFamily: 'monospace'
+                    }}
+                  >
+                    <span>{syncKey}</span>
+                    <button 
+                      className="icon-btn" 
+                      style={{ width: '28px', height: '28px', border: 'none', backgroundColor: 'transparent' }} 
+                      onClick={() => {
+                        navigator.clipboard.writeText(syncKey);
+                        alert("Sync Key copied to clipboard!");
+                      }}
+                      title="Copy Key"
+                    >
+                      📋
+                    </button>
+                  </div>
+                  <button 
+                    className="option-btn" 
+                    style={{ width: '100%', color: '#ef4444', borderColor: 'rgba(239, 68, 68, 0.2)' }} 
+                    onClick={handleUnlinkSync}
+                  >
+                    Unlink Sync Key
+                  </button>
+                </div>
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <button className="option-btn" style={{ width: '100%' }} onClick={handleGenerateSyncKey}>
+                    Generate Sync Key
+                  </button>
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <input 
+                      type="text" 
+                      placeholder="Or enter existing key" 
+                      value={inputSyncKey}
+                      onChange={e => setInputSyncKey(e.target.value)}
+                      className="option-btn"
+                      style={{ flex: 1, textAlign: 'left', padding: '10px', fontSize: '0.8rem', cursor: 'text' }}
+                    />
+                    <button className="option-btn active" style={{ padding: '0 16px' }} onClick={handleLinkSyncKey}>
+                      Link
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
