@@ -1,6 +1,6 @@
 // Core Domain Entities for Jus Breathe
 
-export type StageType = 'inhale' | 'hold' | 'exhale';
+export type StageType = 'inhale' | 'hold-full' | 'exhale' | 'hold-empty';
 export type PresetType = 'standard' | 'wim-hof' | 'meditation';
 
 export interface Stage {
