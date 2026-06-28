@@ -88,21 +88,6 @@ const ResetIcon = () => (
   </svg>
 );
 
-const LayoutDashboardIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="3" y="3" width="7" height="9"></rect>
-    <rect x="14" y="3" width="7" height="5"></rect>
-    <rect x="14" y="12" width="7" height="9"></rect>
-    <rect x="3" y="16" width="7" height="5"></rect>
-  </svg>
-);
-
-const LayoutMinimalIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="12" r="10"></circle>
-    <circle cx="12" cy="12" r="1"></circle>
-  </svg>
-);
 
 export const Visualizer: React.FC = () => {
   const [preferences, setPreferences] = useState<UserPreferences>(() => db.loadPreferences() || defaultPreferences);
@@ -527,16 +512,25 @@ export const Visualizer: React.FC = () => {
         {/* Header */}
         <header className="app-header">
           <h1 className="app-title">Jus Breathe</h1>
-          <div className="header-actions">
-            {/* Awwwards Reference: Layout Toggle (Dashboard vs Minimal Zen view) */}
+
+          {/* Pacôme Pertant Switch: [ dashboard • minimal ] */}
+          <div className="layout-switch desktop-only">
             <button 
-              className="icon-btn desktop-only" 
-              onClick={() => setLayoutMode(prev => prev === 'dashboard' ? 'minimal' : 'dashboard')} 
-              title={layoutMode === 'dashboard' ? "Minimal View" : "Dashboard View"}
+              className={`switch-btn ${layoutMode === 'dashboard' ? 'active' : ''}`}
+              onClick={() => setLayoutMode('dashboard')}
             >
-              {layoutMode === 'dashboard' ? <LayoutMinimalIcon /> : <LayoutDashboardIcon />}
+              <span>dashboard</span>
             </button>
-            
+            <span className="switch-dot"></span>
+            <button 
+              className={`switch-btn ${layoutMode === 'minimal' ? 'active' : ''}`}
+              onClick={() => setLayoutMode('minimal')}
+            >
+              <span>minimal</span>
+            </button>
+          </div>
+
+          <div className="header-actions">
             {/* Quick Master Mute Toggle */}
             <button className="icon-btn" onClick={handleMasterMuteToggle} title={isMasterMuted ? "Unmute All" : "Mute All"}>
               {isMasterMuted ? <SpeakerMuteIcon /> : <SpeakerOnIcon />}

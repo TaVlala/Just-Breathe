@@ -1,4 +1,4 @@
-/* Jus Breathe - CSS Premium Design System (Ref: Pacôme Pertant Portfolio) */
+/* Jus Breathe - CSS Premium Design System (Ref: pacomepertant.com) */
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap');
 
 :root {
@@ -8,81 +8,81 @@
   --transition-quick: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-/* Dark Mode (Default Obsidian Aesthetic) */
+/* Dark Mode (Obsidian Grid Aesthetic) */
 body.dark-mode {
-  --bg-color: #08080a;
-  --bg-gradient: radial-gradient(circle at 50% 50%, #0f1017 0%, #08080a 100%);
-  --panel-bg: rgba(10, 10, 12, 0.7);
+  --bg-color: #0a0a0a;
+  --bg-gradient: radial-gradient(circle at 50% 50%, #111116 0%, #0a0a0a 100%);
+  --panel-bg: rgba(10, 10, 12, 0.85);
   --panel-border: rgba(255, 255, 255, 0.06);
-  --text-primary: #fcfcfc;
+  --text-primary: #ffffff;
   --text-secondary: #8e8e93;
   --text-muted: #4e4e54;
-  --shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  --shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
   --input-bg: rgba(255, 255, 255, 0.02);
   --input-border: rgba(255, 255, 255, 0.05);
+  --btn-sound-bg: #ffffff;
+  --btn-sound-color: #0a0a0a;
 }
 
-/* Light Mode (Stark Minimalist Chalk Aesthetic) */
+/* Light Mode (Chalk Grid Aesthetic) */
 body.light-mode {
   --bg-color: #f7f7f9;
   --bg-gradient: radial-gradient(circle at 50% 50%, #ffffff 0%, #f7f7f9 100%);
-  --panel-bg: rgba(255, 255, 255, 0.8);
+  --panel-bg: rgba(255, 255, 255, 0.9);
   --panel-border: rgba(0, 0, 0, 0.06);
-  --text-primary: #121214;
+  --text-primary: #0a0a0a;
   --text-secondary: #6e6e73;
   --text-muted: #aeaeab;
-  --shadow: 0 20px 50px rgba(0, 0, 0, 0.03);
+  --shadow: 0 20px 60px rgba(0, 0, 0, 0.04);
   --input-bg: rgba(0, 0, 0, 0.015);
   --input-border: rgba(0, 0, 0, 0.05);
+  --btn-sound-bg: #0a0a0a;
+  --btn-sound-color: #ffffff;
 }
 
 /* Themes Overrides */
-/* 1. Forest Theme */
 body.theme-forest {
-  --inhale-color: #10b981;
-  --inhale-glow: rgba(16, 185, 129, 0.15);
-  --exhale-color: #059669;
-  --exhale-glow: rgba(5, 150, 105, 0.1);
+  --inhale-color: #28de91;
+  --inhale-glow: rgba(40, 222, 145, 0.12);
+  --exhale-color: #10b981;
+  --exhale-glow: rgba(16, 185, 129, 0.08);
   --hold-color: #34d399;
-  --hold-glow: rgba(52, 211, 153, 0.08);
-  --accent-color: #10b981;
-  --accent-glow: rgba(16, 185, 129, 0.2);
+  --hold-glow: rgba(52, 211, 153, 0.06);
+  --accent-color: #28de91;
+  --accent-glow: rgba(40, 222, 145, 0.18);
 }
 
-/* 2. Ocean Theme */
 body.theme-ocean {
   --inhale-color: #3b82f6;
-  --inhale-glow: rgba(59, 130, 246, 0.15);
+  --inhale-glow: rgba(59, 130, 246, 0.12);
   --exhale-color: #1d4ed8;
-  --exhale-glow: rgba(29, 78, 216, 0.1);
+  --exhale-glow: rgba(29, 78, 216, 0.08);
   --hold-color: #60a5fa;
-  --hold-glow: rgba(96, 165, 250, 0.08);
+  --hold-glow: rgba(96, 165, 250, 0.06);
   --accent-color: #3b82f6;
-  --accent-glow: rgba(59, 130, 246, 0.2);
+  --accent-glow: rgba(59, 130, 246, 0.18);
 }
 
-/* 3. Lavender Theme */
 body.theme-lavender {
   --inhale-color: #8b5cf6;
-  --inhale-glow: rgba(139, 92, 246, 0.15);
+  --inhale-glow: rgba(139, 92, 246, 0.12);
   --exhale-color: #6d28d9;
-  --exhale-glow: rgba(109, 40, 217, 0.1);
+  --exhale-glow: rgba(109, 40, 217, 0.08);
   --hold-color: #a78bfa;
-  --hold-glow: rgba(167, 139, 250, 0.08);
+  --hold-glow: rgba(167, 139, 250, 0.06);
   --accent-color: #8b5cf6;
-  --accent-glow: rgba(139, 92, 246, 0.2);
+  --accent-glow: rgba(139, 92, 246, 0.18);
 }
 
-/* 4. Amber Theme */
 body.theme-amber {
   --inhale-color: #f59e0b;
-  --inhale-glow: rgba(245, 158, 11, 0.15);
+  --inhale-glow: rgba(245, 158, 11, 0.12);
   --exhale-color: #d97706;
-  --exhale-glow: rgba(217, 119, 6, 0.1);
+  --exhale-glow: rgba(217, 119, 6, 0.08);
   --hold-color: #fbbf24;
-  --hold-glow: rgba(251, 191, 36, 0.08);
+  --hold-glow: rgba(251, 191, 36, 0.06);
   --accent-color: #f59e0b;
-  --accent-glow: rgba(245, 158, 11, 0.2);
+  --accent-glow: rgba(245, 158, 11, 0.18);
 }
 
 /* Base resets */
@@ -94,6 +94,7 @@ body.theme-amber {
   -webkit-user-select: none;
 }
 
+/* live background grid texture matching pacomepertant.com */
 body {
   font-family: var(--font-primary);
   background: var(--bg-gradient);
@@ -101,19 +102,40 @@ body {
   color: var(--text-primary);
   min-height: 100vh;
   overflow: hidden;
+  position: relative;
   transition: background 1.8s ease-in-out, background-color 1.8s ease-in-out, color 0.4s ease;
 }
 
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 64px 64px;
+  background-position: center center;
+  z-index: 0;
+  pointer-events: none;
+  transition: background-image 0.4s ease;
+}
+
+body.light-mode::before {
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.015) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.015) 1px, transparent 1px);
+}
+
 body.stage-inhale {
-  background: radial-gradient(circle at 50% 50%, var(--inhale-glow) 0%, var(--bg-color) 75%);
+  background: radial-gradient(circle at 50% 50%, var(--inhale-glow) 0%, var(--bg-color) 80%);
 }
 
 body.stage-exhale {
-  background: radial-gradient(circle at 50% 50%, var(--exhale-glow) 0%, var(--bg-color) 75%);
+  background: radial-gradient(circle at 50% 50%, var(--exhale-glow) 0%, var(--bg-color) 80%);
 }
 
 body.stage-hold {
-  background: radial-gradient(circle at 50% 50%, var(--hold-glow) 0%, var(--bg-color) 75%);
+  background: radial-gradient(circle at 50% 50%, var(--hold-glow) 0%, var(--bg-color) 80%);
 }
 
 /* Workspace Deck Frame */
@@ -127,7 +149,7 @@ body.stage-hold {
   z-index: 1;
 }
 
-/* Responsive sidebars with fluid transitions */
+/* Sidebars */
 .deck-sidebar {
   width: 320px;
   height: 100%;
@@ -138,7 +160,7 @@ body.stage-hold {
   display: flex;
   flex-direction: column;
   z-index: 5;
-  transition: width 0.7s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.6s ease, border 0.6s ease;
+  transition: width 0.8s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.6s ease, border 0.6s ease;
   overflow: hidden;
 }
 
@@ -173,7 +195,7 @@ body.stage-hold {
   display: flex;
   flex-direction: column;
   height: 100%;
-  min-width: 270px; /* Prevents text squashing during slide transitions */
+  min-width: 270px;
 }
 
 .sidebar-scrollable::-webkit-scrollbar {
@@ -193,14 +215,14 @@ body.stage-hold {
 }
 
 .sidebar-section-header h2 {
-  font-size: 1.1rem;
-  font-weight: 400;
-  letter-spacing: -0.02em;
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
   text-transform: uppercase;
 }
 
 .sidebar-subtext {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: var(--text-secondary);
   margin-bottom: 24px;
   font-weight: 300;
@@ -297,7 +319,7 @@ body.stage-hold {
   filter: blur(60px);
   z-index: -1;
   pointer-events: none;
-  opacity: 0.5;
+  opacity: 0.4;
   transition: var(--transition-slow);
 }
 
@@ -311,7 +333,7 @@ body.stage-hold {
   right: 15%;
 }
 
-/* Header */
+/* Header styling with Pacôme Pertant layout switch */
 .app-header {
   display: flex;
   justify-content: space-between;
@@ -321,12 +343,51 @@ body.stage-hold {
 }
 
 .app-title {
-  font-size: 1.1rem;
-  font-weight: 400;
-  letter-spacing: -0.02em;
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
   opacity: 0.8;
   text-transform: uppercase;
   font-family: var(--font-primary);
+}
+
+/* pacomepertant.com styled switch */
+.layout-switch {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  z-index: 20;
+}
+
+.switch-btn {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 0.88rem;
+  font-weight: 500;
+  opacity: 0.4;
+  cursor: pointer;
+  transition: opacity 0.3s ease-out, transform 0.3s ease;
+  font-family: var(--font-primary);
+  padding: 0;
+  outline: none;
+}
+
+.switch-btn:hover {
+  opacity: 0.8;
+  transform: scale(1.02);
+}
+
+.switch-btn.active {
+  opacity: 1;
+}
+
+.switch-dot {
+  background-color: var(--text-primary);
+  border-radius: 50%;
+  height: 8px;
+  width: 8px;
+  opacity: 0.8;
 }
 
 .header-actions {
@@ -363,7 +424,7 @@ body.stage-hold {
 .entrance-overlay {
   position: fixed;
   inset: 0;
-  background-color: #08080a;
+  background-color: #0a0a0a;
   z-index: 999;
   display: flex;
   flex-direction: column;
@@ -389,7 +450,7 @@ body.stage-hold {
   border: none;
   padding: 12px 28px;
   font-size: 0.85rem;
-  font-weight: 400;
+  font-weight: 500;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   border-radius: 30px;
@@ -512,7 +573,7 @@ body.stage-hold {
   margin-top: 1px;
 }
 
-/* Linear progress bar at the bottom */
+/* Linear progress bar */
 .linear-progress-bar {
   width: 100%;
   max-width: 280px;
@@ -532,7 +593,7 @@ body.stage-hold {
   transition: width 0.1s linear, background-color 0.8s ease;
 }
 
-/* Playback Control Bar */
+/* Controls Center */
 .playback-controls-wrapper {
   width: 100%;
   max-width: 440px;
@@ -742,7 +803,6 @@ input[type="text"].option-btn {
 @media (max-width: 1023px) {
   .workspace-deck {
     justify-content: center;
-    padding-top: 38px;
   }
   .deck-sidebar {
     display: none;
